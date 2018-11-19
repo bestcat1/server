@@ -215,4 +215,67 @@ router.post('/farm/program_maintain/drug_pro_maintain/update/:user/:key',(req, r
     var data = req.body;
     firebase.firebase().ref('/setting/farm/program_maintain/drug_pro_maintain/'+user+'/'+key).update(data);
 })
+
+router.get('/farm/progarm_sync/:andmin',(req, res)=>{
+    var user = req.params.user;
+
+    firebase.firebase().ref('setting/farm/program_sync/'+user).once('value',data=>{
+        res.json(data.val());
+    })
+})
+
+router.post('/farm/program_sync/add/:user',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+
+    firebase.firebase().ref('setting/farm/program_sync/'+user).push(data);
+})
+
+router.delete('/farm/program_sync/remove/:user/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+
+    firebase.firebase().ref('setting/farm/program_sync/'+user+'/'+key).remove();
+})
+
+router.get('/farm/program_sync/drug_pro_sync/:user/:type',(req, res)=>{
+    var user = req.params.user;
+    var type = req.params.type;
+    
+    firebase.firebase().ref('/setting/farm/program_sync/drug_pro_sync/'+user).orderByChild('pro_sync').equalTo(type).once('value',data=>{
+        res.json(data.val());
+    })
+})
+router.post('/farm/program_sync/drug_pro_sync/add/:user',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+    firebase.firebase().ref('/setting/farm/program_sync/drug_pro_sync/'+user).push(data).then(()=>{
+        res,json('Sucess');
+    });
+})
+
+router.delete('/farm/program_sync/drug_pro_sync/remove/:user/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+    firebase.firebase().ref('/setting/farm/program_sync/drug_pro_sync/'+user+'/'+key).remove()
+})
+
+router.post('/farm/program_sync/drug_pro_sync/update/:user/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+    var data = req.body;
+    firebase.firebase().ref('/setting/farm/program_sync/drug_pro_sync/'+user+'/'+key).update(data);
+})
+
+router.post('/farm/drug/add/:user/',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+    firebase.firebase().ref('/setting/farm/drug/'+user).push(data);
+})
+router.delete('/farm/drug/remove/:user/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+    firebase.firebase().ref('/setting/farm/drug/'+user+'/'+key).remove();
+})
+
 module.exports = router;
