@@ -23,7 +23,7 @@ router.get('/show/:user',(req, res)=>{
 router.get('/show/:user/:id', (req, res) =>{
     var user = req.params.user;
     var id = req.params.id;
-    firebase.firebase().ref('calf/'+user).orderByChild('bid').equalTo(id).once('value',data=>{
+    firebase.firebase().ref('calf/'+user).orderByChild('birth_id').equalTo(id).once('value',data=>{
         res.json(data.val());
     })
 })

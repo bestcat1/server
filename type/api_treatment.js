@@ -13,14 +13,23 @@ router.post('/add/:user',(req, res)=>{
     });
 })
 
-router.post('add/:user/:id',(req, res)=>{
+router.post('/add/:user/:id',(req, res)=>{
     var data = req.body;
     var user = req.params.user;
     var id = req.params.id;
-    firebase.firebase().ref('/treatment/'+user+'/'+id).push(data).then(data=>{
+    firebase.firebase().ref('/treatment/drug/'+user+'/'+id).push(data).then(data=>{
         res.json('Sucess');
     },err=>{
         res.json('Failed');
+    })
+})
+
+
+router.get('/show/:user',(req, res)=>{
+    var user = req.params.user;
+
+    firebase.firebase().ref('treatment/'+user).once('value',data=>{
+        res.json(data.val());
     })
 })
 

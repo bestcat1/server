@@ -13,5 +13,12 @@ router.post('/add/:user', (req, res) => {
 
 })
 
+router.get('/show/:user',(req, res)=>{
+    var user = req.params.user;
+
+    firebase.firebase().ref('delivery/'+user).once('value',data=>{
+        res.json(data.val());
+    })
+})
 
 module.exports = router;

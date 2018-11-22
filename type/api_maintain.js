@@ -16,6 +16,12 @@ router.post('/add/:user',(req, res)=>{
     res.json("Add complete");
 })
 
+router.get('/show/:user',(req, res)=>{
+    var user = req.params.user;
 
+    firebase.firebase().ref('maintain/'+user).once('value',data=>{
+        res.json(data.val());
+    })
+})
 
 module.exports = router;
