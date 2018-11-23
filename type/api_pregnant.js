@@ -18,4 +18,12 @@ router.get('/show/:user',(req, res)=>{
     })
 })
 
+router.post('/update/:user/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+    const data = req.body;
+    firebase.firebase().ref("abdominal/"+user+'/'+key).update(data);
+    res.json("Update complete");
+})
+
 module.exports = router;
