@@ -36,4 +36,11 @@ router.delete('/delete/:date/:user/:key', (req, res) => {
     firebase.firebase().ref('notification/' + user + '/' + date + '/' + key).remove();
 });
 
+router.get('/show/date/:user/:date', (req, res) => {
+    var user = req.params.user;
+    var date = req.params.date;
+    firebase.firebase().ref('notification/' + user+'/'+date).once('value', data => {
+        res.json(data.val());
+    })
+})
 module.exports = router;
