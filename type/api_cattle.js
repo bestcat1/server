@@ -54,4 +54,13 @@ router.get('/showcolor/:user/:color',(req, res)=>{
         res.json(data.val());
     })
 })
+
+router.get('/showherd/:user/:herd',(req, res)=>{
+    var user = req.params.user;
+    var herd = req.params.herd;
+    firebase.firebase().ref('cattle/'+user).orderByChild('herd_no').equalTo(herd).once('value',data=>{
+        res.json(data.val());
+    })
+})
+
 module.exports =router;

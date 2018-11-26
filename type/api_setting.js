@@ -278,4 +278,33 @@ router.delete('/farm/drug/remove/:user/:key',(req, res)=>{
     firebase.firebase().ref('/setting/farm/drug/'+user+'/'+key).remove();
 })
 
+router.post('/farm/herd_num/add/:user',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+
+    firebase.firebase().ref('/setting/farm/herd_num/'+user).push(data);
+})
+
+router.get('/farm/herd_num/show/:user',(req, res)=>{
+    var user = req.params.user;
+
+    firebase.firebase().ref('/setting/farm/herd_num/'+user).once('value',data=>{
+        res.json(data.val());
+    });
+})
+
+router.delete('/farm/herd_num/delete/:user/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+
+    firebase.firebase().ref('/setting/farm/herd_num/'+user+'/'+key).remove();
+})
+
+router.post('/farm/herd_num/update/:user/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+    var data = req.body;
+
+    firebase.firebase().ref('/setting/farm/herd_num/'+user+'/'+key).update(data);
+})
 module.exports = router;
