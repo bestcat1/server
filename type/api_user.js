@@ -30,4 +30,11 @@ router.get('/email/:email',(req, res)=>{
         res.json(data.val());
     })
 });
+
+router.post('/update/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+    var data = req.body;
+    firebase.firebase().ref('User/'+key).update(data);
+})
 module.exports = router;

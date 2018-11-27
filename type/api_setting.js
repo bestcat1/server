@@ -307,4 +307,11 @@ router.post('/farm/herd_num/update/:user/:key',(req, res)=>{
 
     firebase.firebase().ref('/setting/farm/herd_num/'+user+'/'+key).update(data);
 })
+
+router.post('/notification/add/:user',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+
+    firebase.firebase().ref('/setting/notification/'+user).push(data);
+})
 module.exports = router;
