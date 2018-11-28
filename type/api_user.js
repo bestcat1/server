@@ -32,9 +32,22 @@ router.get('/email/:email',(req, res)=>{
 });
 
 router.post('/update/:key',(req, res)=>{
-    var user = req.params.user;
     var key = req.params.key;
     var data = req.body;
     firebase.firebase().ref('User/'+key).update(data);
 })
+
+router.get('/privilege/:type',(req, res)=>{
+    var type = req.params.type;
+    firebase.firebase().ref('User').orderByChild('privilege').equalTo(type).once('value',data=>{
+        res.json(data.val());
+    })
+});
+
+router.get('/adminfarm/:adminfarm',(req, res)=>{
+    var adminfarm = req.params.adminfarm;
+    firebase.firebase().ref('User').orderByChild('adminfarm').equalTo(adminfarm).once('value',data=>{
+        res.json(data.val());
+    })
+});
 module.exports = router;
