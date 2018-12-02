@@ -14,7 +14,20 @@ router.post('/add/:user',(req, res)=>{
 })
 
 
+router.get('/show/:user',(req,res)=>{
+    var user = req.params.user;
 
+    firebase.firebase().ref('abortion/'+user).once('value',data=>{
+        res.json(data.val());
+    })
+})
+
+router.post('/update/:user/:key',(req,res)=>{
+    var user = req.params.user;
+    var key =req.params.key;
+    var data = req.body;
+    firebase.firebase().ref('abortion/'+user+'/'+key).update(data);
+})
 module.exports = router;
 
 
