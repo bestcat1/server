@@ -314,4 +314,12 @@ router.post('/notification/add/:user',(req, res)=>{
 
     firebase.firebase().ref('/setting/notification/'+user).push(data);
 })
+
+router.post('/brand/update/:user/:key',(req,res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+    var data = req.body;
+
+    firebase.firebase().ref('setting/farm/brand/'+user+'/'+key).update(data);
+})
 module.exports = router;
