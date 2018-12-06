@@ -41,4 +41,14 @@ router.post('/update/:user/:key',(req, res)=>{
     res.json("Update complete");
 })
 
+router.post('/maintaincorral/add/:user',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+
+    data.forEach(element => {
+        firebase.firebase().ref('maintain/'+user).push(element);
+    });
+    res.json("Add complete");
+})
+
 module.exports = router;

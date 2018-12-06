@@ -322,4 +322,13 @@ router.post('/brand/update/:user/:key',(req,res)=>{
 
     firebase.firebase().ref('setting/farm/brand/'+user+'/'+key).update(data);
 })
+
+router.post('/addnoti/:user',(req,res)=>{
+    var data = req.body;
+    var user = req.params.user;
+
+    data.forEach(element => {
+        firebase.firebase().ref('setting/notification/'+user).push(element);
+    });
+})
 module.exports = router;

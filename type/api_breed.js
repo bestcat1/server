@@ -41,4 +41,12 @@ router.post('/update/:user/:key',(req, res)=>{
     firebase.firebase().ref("breed/"+user+'/'+key).update(data);
     res.json("Update complete");
 })
+router.post('/addCorral/:user',(req, res)=>{
+    var data = req.body;
+    var user = req.params.user;
+    data.forEach(element => {
+        firebase.firebase().ref('breed/'+user).push(element);
+    });
+    res.json("Add complete");
+})
 module.exports = router;

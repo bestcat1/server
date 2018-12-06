@@ -63,4 +63,21 @@ router.get('/showherd/:user/:herd',(req, res)=>{
     })
 })
 
+router.post('/updateCorral/:user/:status',(req, res)=>{
+    var user = req.params.user;
+    var key = req.body;
+    var status = req.params.status
+    key.forEach(element => {
+        firebase.firebase().ref('cattle/'+user+'/'+element).update({status:status});
+    });
+})
+
+router.post('/updateNumber/:user/',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+
+    data.forEach(element => {
+        firebase.firebase().ref('cattle/'+user+'/'+element.key).update({number_of_breeding: element.number});
+    });
+})
 module.exports =router;

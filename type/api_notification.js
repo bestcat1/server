@@ -43,4 +43,13 @@ router.get('/show/date/:user/:date', (req, res) => {
         res.json(data.val());
     })
 })
+
+router.post('/addNotiAll/:user',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+    data.forEach(element => {
+        firebase.firebase().ref('notification/'+user+'/'+element.date).push(element);    
+    });
+    
+})
 module.exports = router;
