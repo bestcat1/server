@@ -6,11 +6,23 @@ router.post('/add/:user/:date', (req, res) => {
     var data = req.body;
     var user = req.params.user;
     var date = req.params.date;
-    firebase.firebase().ref('notification/' + user + '/' + date).push(data).then(data => {
-        res.json('Sucess!');
-    }, err => {
-        res.json('Failed!');
-    });
+    firebase.firebase().ref('notification/' + user + '/' + date).push(data).once('value',d=>{
+        if(d != undefined || d != null || d != ''){
+            var json  = {
+                status: "OK",
+                data: d.val()
+            }
+         
+            res.status(200).json(json);
+        } else {
+            var json  = {
+                status: 500,
+                err: d.val()
+            }
+            console.log(json)
+            res.status(500).json(json);
+        }
+    })
 })
 
 router.get('/show/date/:user', (req, res) => {

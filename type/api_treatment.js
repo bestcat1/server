@@ -64,11 +64,14 @@ router.post('/update/:user/:key',(req, res)=>{
     var data = req.body;
     var user = req.params.user;
     var key = req.params.key;
-    firebase.firebase().ref('/treatment/'+user+'/'+key).update(data).then(data=>{
-        res.json('Sucess');
-    }, err=>{
-        res.json('Failed');
-    });
+    firebase.firebase().ref('/treatment/'+user+'/'+key).update(data,d=>{
+        if(d){
+            res.json({status:500})
+        }
+        else {
+         res.json({status:'OK'})
+        }
+     })
 })
 
 router.delete('/deleteDrug/:user/:cattle_id/:key',(req, res)=>{

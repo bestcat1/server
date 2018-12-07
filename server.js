@@ -1,5 +1,8 @@
 var app = require('express')();
 var bodyparser = require('body-parser');
+var firebase = require('./firebase');
+
+app.locals.firebase = firebase;
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
