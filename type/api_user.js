@@ -11,10 +11,23 @@ router.get('/:user',(req, res) => {
 
 router.post('/add',(req, res) => {
     var data = req.body;
-    firebase.firebase().ref('User').push(data).then(data => {
-        res.json('Register Sucess');
-    },err=>{
-        res.json('Register Failed');
+    firebase.firebase().ref('User').push(data).once('value',d=>{
+        console.log(d.val());
+        if(d != undefined || d != null || d != ''){
+            var json  = {
+                status: "OK",
+                data: d.val()
+            }
+            res.status(200).json(json);
+        } else {
+            var json  = {
+                status: 500,
+                err: d.val()
+            }
+            res.status(500).json(json);
+        }
+        
+       
     });
 });
 
@@ -34,7 +47,14 @@ router.get('/email/:email',(req, res)=>{
 router.post('/update/:key',(req, res)=>{
     var key = req.params.key;
     var data = req.body;
-    firebase.firebase().ref('User/'+key).update(data);
+    firebase.firebase().ref('User/'+key).update(data,d=>{
+        if(d){
+            res.json({status:500})
+        }
+        else {
+         res.json({status:'OK'})
+        }
+     })
 })
 
 router.get('/privilege/:type',(req, res)=>{

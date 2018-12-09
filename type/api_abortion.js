@@ -38,7 +38,7 @@ router.post('/update/:user/:key',(req,res)=>{
     var key =req.params.key;
     var data = req.body;
     firebase.firebase().ref('abortion/'+user+'/'+key).update(data,d=>{
-        if(d){
+        if(d){ 
             res.json({status:500})
         }
         else {
