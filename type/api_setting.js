@@ -74,11 +74,14 @@ router.post('/notification/edit/:user/:key',(req, res)=>{
     var user = req.params.user;
     var key = req.params.key;
     var data = req.body;
-    firebase.firebase().ref('setting/notification/'+user+'/'+key).update(data).then(data=>{
-        res.json('Sucess');
-    },err=>{
-        res.json('Failed');
-    });
+    firebase.firebase().ref('setting/notification/'+user+'/'+key).update(data,d=>{
+        if(d){
+            res.json({status:500})
+        }
+        else {
+         res.json({status:'OK'})
+        }
+     })
 });
 
 router.post('/farm/corral/:user',(req, res)=>{
