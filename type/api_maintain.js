@@ -71,10 +71,19 @@ router.post('/maintaincorral/add/:user',(req, res)=>{
     var user = req.params.user;
     var data = req.body;
     var firebase = req.app.locals.firebase;
-    data.forEach(element => {
-        firebase.firebase().ref('maintain/'+user).push(element);
-    });
-    res.json("Add complete");
+
+    function uploader(i) {
+        if(i<data.length){
+            firebase.firebase().ref('maintain/'+user).push(data[i]).then(function(){
+             uploader(i+1);
+             });
+        } else {
+            res.json({status:'OK'});
+        }
+    }
+    uploader(0);
+
+
 })
 
 module.exports = router;

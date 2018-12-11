@@ -14,6 +14,7 @@ var header = function (req, res, next) {
         "Origin, X-Requested-With, Content-Type, Accept"
     );
     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    res.header('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization');
     next();
 };
 

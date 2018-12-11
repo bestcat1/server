@@ -301,7 +301,7 @@ router.get('/farm/program_maintain/drug_pro_maintain/:user/:type',(req, res)=>{
         res.json(data.val());
     })
 })
-
+    
 router.post('/farm/program_maintain/drug_pro_maintain/add/:user',(req, res)=>{
     var user = req.params.user;
     var data = req.body;
@@ -309,7 +309,7 @@ router.post('/farm/program_maintain/drug_pro_maintain/add/:user',(req, res)=>{
         console.log(d.val());
         if(d != undefined || d != null || d != ''){
             var json  = {
-                status: "OK",
+                status: "OK",       
                 data: d.val()
             }
             res.status(200).json(json);

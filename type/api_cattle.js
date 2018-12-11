@@ -88,17 +88,34 @@ router.post('/updateCorral/:user/:status',(req, res)=>{
     var user = req.params.user;
     var key = req.body;
     var status = req.params.status
-    key.forEach(element => {
-        firebase.firebase().ref('cattle/'+user+'/'+element).update({status:status});
-    });
+    function uploader(i) {
+        if(i<key.length){
+            firebase.firebase().ref('cattle/'+user+'/'+key[i]).update({status:status}).then(function(){
+             uploader(i+1);
+             });
+        } else {
+            res.json({status:'OK'});
+        }
+    }
+    uploader(0);
+
 })
 
 router.post('/updateNumber/:user/',(req, res)=>{
     var user = req.params.user;
     var data = req.body;
 
-    data.forEach(element => {
-        firebase.firebase().ref('cattle/'+user+'/'+element.key).update({number_of_breeding: element.number});
-    });
+    function uploader(i) {
+        if(i<data.length){
+            firebase.firebase().ref('cattle/'+user+'/'+data[i].key).update({number_of_breeding: data[i].number}).then(function(){
+             uploader(i+1);
+             });
+        } else {
+            res.json({status:'OK'});
+        }
+    }
+    uploader(0);
+
+
 })
 module.exports =router;
