@@ -6,22 +6,41 @@ router.post('/add/:user',(req, res)=>{
     var data = req.body;
     var user = req.params.user;
 
-    firebase.firebase().ref('/treatment/'+user).push(data).then(data=>{
-        res.json('Sucess');
-    }, err=>{
-        res.json('Failed');
-    });
+    firebase.firebase().ref('/treatment/'+user).push(data).once('value',d=>{
+        console.log(d.val());
+        if(d != undefined || d != null || d != ''){ 
+            var json  = {
+                status: "OK",
+                data: d.val()
+            }
+            res.status(200).json(json);
+        } else {
+            var json  = {
+                status: 500,
+                err: d.val()
+            }
+            res.status(500).json(json);
+        }
+        
+       
+    })
 })
 
 router.post('/add/:user/:id',(req, res)=>{
     var data = req.body;
     var user = req.params.user;
     var id = req.params.id;
-    firebase.firebase().ref('/treatment/drug/'+user+'/'+id).push(data).then(data=>{
-        res.json('Sucess');
-    },err=>{
-        res.json('Failed');
-    })
+
+    function uploader(i) {
+        if(i<data.length){
+            firebase.firebase().ref('/treatment/drug/'+user+'/'+id).push(data[i]).then(function(){
+             uploader(i+1);
+             });
+        } else {
+            res.json({status:'OK'});
+        }
+    }
+    uploader(0);
 })
 
 
@@ -81,5 +100,8 @@ router.delete('/deleteDrug/:user/:cattle_id/:key',(req, res)=>{
 
     firebase.firebase().ref('/treatment/drug/'+user+'/'+cattle_id+'/'+key).remove();
 })
+
+
+
 
 module.exports = router;

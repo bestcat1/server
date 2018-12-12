@@ -568,8 +568,17 @@ router.post('/addnoti/:user',(req,res)=>{
     var data = req.body;
     var user = req.params.user;
 
-    data.forEach(element => {
-        firebase.firebase().ref('setting/notification/'+user).push(element);
-    });
+    function uploader(i) {
+        if(i<data.length){
+            firebase.firebase().ref('setting/notification/'+user).push(data[i]).then(function(){
+             uploader(i+1);
+             });
+        } else {
+            res.json({status:'OK'});
+        }
+    }
+    uploader(0);
+
+
 })
 module.exports = router;
