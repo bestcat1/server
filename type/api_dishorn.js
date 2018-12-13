@@ -45,4 +45,16 @@ router.post('/update/:user/:key',(req, res)=>{
      })
 })
 
+
+router.get('/show/:user/:start/:end',(req, res)=>{
+    var user = req.params.user;
+    var start = req.params.start;
+    var end = req.params.end;
+    var firebase = req.app.locals.firebase;
+    firebase.firebase().ref('dishorn/'+user).orderByChild('datedishorn').startAt(start).endAt(end).once('value',data=>{
+        res.json(data.val());
+    })
+})
+
+
 module.exports = router;

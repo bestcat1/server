@@ -98,10 +98,25 @@ router.delete('/deleteDrug/:user/:cattle_id/:key',(req, res)=>{
     var cattle_id = req.params.cattle_id;
     var key = req.params.key;
 
-    firebase.firebase().ref('/treatment/drug/'+user+'/'+cattle_id+'/'+key).remove();
+    firebase.firebase().ref('/treatment/drug/'+user+'/'+cattle_id+'/'+key).remove(d=>{
+        if(d){
+            res.json({status:500})
+        }
+        else {
+         res.json({status:'OK'})
+        }
+     })
 })
 
 
-
+router.get('/show/:user/:start/:end',(req, res)=>{
+    var user = req.params.user;
+    var start = req.params.start;
+    var end = req.params.end;
+    var firebase = req.app.locals.firebase;
+    firebase.firebase().ref('treatment/'+user).orderByChild('datediagnose').startAt(start).endAt(end).once('value',data=>{
+        res.json(data.val());
+    })
+})
 
 module.exports = router;

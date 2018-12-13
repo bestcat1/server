@@ -62,6 +62,15 @@ router.post('/addCorral/:user',(req, res)=>{
         }
     }
     uploader(0);
-     
+})
+
+router.get('/show/:user/:start/:end',(req, res)=>{
+    var user = req.params.user;
+    var start = req.params.start;
+    var end = req.params.end;
+    var firebase = req.app.locals.firebase;
+    firebase.firebase().ref('synchronize/'+user).orderByChild('datepro').startAt(start).endAt(end).once('value',data=>{
+        res.json(data.val());
+    })
 })
 module.exports = router;
