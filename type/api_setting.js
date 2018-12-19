@@ -578,7 +578,19 @@ router.post('/addnoti/:user',(req,res)=>{
         }
     }
     uploader(0);
+})
 
-
+router.post('/farm/update/drug/:user/:key',(req, res)=>{
+    var user = req.params.user;
+    var key = req.params.key;
+    var data = req.body;
+    firebase.firebase().ref('/setting/farm/drug/'+user+'/'+key).update(data,d=>{
+        if(d){
+            res.json({status:500})
+        }
+        else {
+         res.json({status:'OK'})
+        }
+     })
 })
 module.exports = router;
