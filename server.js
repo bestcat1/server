@@ -35,6 +35,7 @@ app.use('/wean',header, require('./type/api_wean.js'));
 app.use('/pregnant', header, require('./type/api_pregnant.js'));
 app.use('/synchronize', header, require('./type/api_synchronize.js'));
 app.use('/storage', header, require('./type/api_storage.js'));
+app.use('/history', header, require('./type/api_history.js'));
 app.get('*', header, (req, res) => {
     res.json('hello');
 })
