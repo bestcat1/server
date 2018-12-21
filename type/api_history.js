@@ -3,7 +3,7 @@ var router = express.Router();
 var firebase = require('../firebase.js');
 
 
-router.post('/add/history/:user',(req,res)=>{
+router.post('/add/:user',(req,res)=>{
     var user = req.params.user;
     var data = req.body;
     firebase.firebase().ref('history/'+ user).push(data).once('value',d=>{
@@ -22,5 +22,29 @@ router.post('/add/history/:user',(req,res)=>{
             res.status(500).json(json);
         }
     })
+})
+
+router.get('/show/:user/:id',(req,res)=>{
+    var user = req.params.user;
+    var id = req.params.id;
+
+    firebase.firebase().ref('history/'+user).orderByChild('dam_id').equalTo(id).once('value',data=>{
+        res.json(data.val());
+    })
+})
+
+router.post('/addMulti/:user',(req,res)=>{
+    var user = req.params.user;
+    var data = req.body;
+    function uploader(i) {
+        if(i<data.length){
+            firebase.firebase().ref('history/'+ user).push(data[i]).then(function(){
+             uploader(i+1);
+             });
+        } else {
+            res.json({status:'OK'});
+        }
+    }
+    uploader(0);
 })
 module.exports = router;
