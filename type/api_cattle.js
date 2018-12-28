@@ -125,4 +125,20 @@ router.get('/show/:user/:start/:end',(req, res)=>{
         res.json(data.val());
     })
 })
+
+router.post('/updateMutiple/:user/',(req, res)=>{
+    var user = req.params.user;
+    var data = req.body;
+
+    function uploader(i) {
+        if(i<data.length){
+            firebase.firebase().ref('cattle/'+user+'/'+data[i].key).update({status:data[i].status,process_date:data[i].process_date}).then(function(){
+             uploader(i+1);
+             });
+        } else {
+            res.json({status:'OK'});
+        }
+    }
+    uploader(0);
+})
 module.exports =router;
